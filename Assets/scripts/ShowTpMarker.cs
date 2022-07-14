@@ -10,6 +10,8 @@ public class ShowTpMarker : MonoBehaviour
     [SerializeField] private InputActionReference activateReferenceRight;
 
     private GameObject[] tpMarkers;
+
+    private GameObject CurrentMarker;
     void Awake()
     {
         tpMarkers = GameObject.FindGameObjectsWithTag("TeleportMarker");
@@ -32,11 +34,23 @@ public class ShowTpMarker : MonoBehaviour
         }
     }
 
-    void setMarkerVis(bool vis)
+    public void setMarkerVis(bool vis)
     {
         foreach (GameObject o in tpMarkers)
         {
             o.SetActive(vis);
+            if (o == CurrentMarker)
+            {
+                o.SetActive(false);
+            }
         }
+
+        
+
+    }
+
+    public void setCurrentMarker(GameObject g)
+    {
+        CurrentMarker = g;
     }
 }

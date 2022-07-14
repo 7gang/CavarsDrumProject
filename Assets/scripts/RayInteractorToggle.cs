@@ -48,9 +48,7 @@ public class RayInteractorToggle : MonoBehaviour
     private void ApplyStatus()
     {
         if (rayInteractor.enabled != isEnabled)
-        {
             rayInteractor.enabled = isEnabled;
-        }
 
 
     }
