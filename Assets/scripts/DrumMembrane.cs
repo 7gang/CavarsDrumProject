@@ -63,7 +63,7 @@ public class DrumMembrane : MonoBehaviour
         return (new AudioClip[]{ this.positionClips[0] }, new float[] { 0.0f });  // placeholder
     }
 
-    public float ConvertFromPositionToDistance(Vector3 position)
+    public float ConvertFromPositionToDistance(Vector2 position)
     {
         var center = transform.localPosition;
         float distance = Mathf.Abs(Vector2.Distance(center, position));
