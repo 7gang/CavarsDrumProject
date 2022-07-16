@@ -65,7 +65,8 @@ public class DrumMembrane : MonoBehaviour
 
     public float ConvertFromPositionToDistance(Vector2 position)
     {
-        // TODO: implement this...
-        return 0.0f;  // placeholder
+        var center = transform.localPosition;
+        float distance = Mathf.Abs(Vector2.Distance(center, position));
+        return distance;
     }
 }
