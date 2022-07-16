@@ -40,7 +40,11 @@ public class DrumMembraneTest
     {
         var drum = this._dm1.GetComponent<DrumMembrane>();
         Assert.True(drum.ConvertFromPositionToDistance(new Vector2(0f, 0f)) == 0.0f);
-        
+        Assert.True(drum.ConvertFromPositionToDistance(new Vector2(4f, 3f)) == 5f);
+        Assert.True(drum.ConvertFromPositionToDistance(new Vector2(4f, -3f)) == 5f);
+        Assert.True(drum.ConvertFromPositionToDistance(new Vector2(-4f, -3f)) == 5f);
+
+
         // TODO: implement more tests...
     }
     
