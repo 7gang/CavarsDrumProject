@@ -26,7 +26,7 @@ public class Beat
         return 0.0f;
     }
 }
-
+[RequireComponent(typeof(Collider))]
 public class DrumMembrane : MonoBehaviour
 {
     [SerializeField]
@@ -43,7 +43,7 @@ public class DrumMembrane : MonoBehaviour
     private float midPowerThreshold;
     [SerializeField]
     private float highPowerThreshold;
-
+    
     public Beat CreateBeatFromHit(float distanceFromCenter)
     {
         var parameters = this.SynthesizeParameters(distanceFromCenter);
@@ -53,7 +53,7 @@ public class DrumMembrane : MonoBehaviour
 
     public Beat CreateBeatFromHit(Vector2 position)
     {
-        var distance = this.ConvertFromPositionToDistance(position);
+        var distance = this.GetNormalizedDistance(position);
         return this.CreateBeatFromHit(distance);
     }
 
@@ -63,10 +63,20 @@ public class DrumMembrane : MonoBehaviour
         return (new AudioClip[]{ this.positionClips[0] }, new float[] { 0.0f });  // placeholder
     }
 
-    public float ConvertFromPositionToDistance(Vector2 position)
+    public float GetNormalizedDistance(Vector2 position)
     {
-        var center = transform.localPosition;
-        float distance = Mathf.Abs(Vector2.Distance(center, position));
-        return distance;
+        // TODO: handle conversion from world space to local space somehow maybe...
+
+        var localCollider = this.gameObject.GetComponent<Collider>();
+        var center = localCollider.bounds.center;
+        //Debug.Log(center.x + ", " + center.z + " & " + position.x + ", " + position.y);
+        
+        // find distance in standard measurement units, assuming the implicit conversion from vec3 to vec2 functions as expected...
+        var distance = Mathf.Abs(Vector2.Distance(new Vector2(center.x, center.z), position));
+
+        // convert to normalized distance and return
+        var width = localCollider.bounds.size.x;  // assuming a regular circle
+        var distanceNormalized = distance / (width / 2);
+        return distanceNormalized <= 1 ? distanceNormalized : 1;
     }
 }
